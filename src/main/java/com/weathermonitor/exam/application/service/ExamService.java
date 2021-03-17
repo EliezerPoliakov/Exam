@@ -1,8 +1,10 @@
 package com.weathermonitor.exam.application.service;
 
+import java.io.BufferedReader;
 import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -11,6 +13,7 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.scheduling.TaskScheduler;
 import org.springframework.stereotype.Service;
 
@@ -25,7 +28,9 @@ public class ExamService {
 	private void parseConfigFile() {
 		JSONParser jsonParser = new JSONParser();
         
-        try (FileReader reader = new FileReader("config.json"))
+		
+        try (InputStream inputStream = new ClassPathResource("config.json").getInputStream();
+        	    BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream)))
         {
             Object obj = jsonParser.parse(reader);
  
